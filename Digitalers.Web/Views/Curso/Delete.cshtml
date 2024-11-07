@@ -1,0 +1,47 @@
+﻿@model CursoViewModel
+
+@{
+    ViewData["Title"] = "Eliminar Curso";
+}
+
+<h1>Eliminar Curso</h1>
+
+<p>¿Estás seguro de que deseas eliminar el curso <strong>@Model.Nombre</strong>?</p>
+
+<div class="alert alert-warning">
+    <strong>¡Advertencia!</strong> Esta acción no se puede deshacer.
+</div>
+
+<div>
+    <strong>Nombre del Curso:</strong> @Model.Nombre <br />
+    <strong>Duración:</strong> @Model.Duracion horas <br />
+    <strong>Profesor:</strong> @Model.ProfesorNombre <br />
+</div>
+
+<h4>Estudiantes en este Curso</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var estudiante in Model.Estudiantes)
+        {
+                <tr>
+                    <td>@estudiante.Dni</td>
+                    <td>@estudiante.Nombre</td>
+                </tr>
+        }
+    </tbody>
+</table>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancelar</a>
+</form>

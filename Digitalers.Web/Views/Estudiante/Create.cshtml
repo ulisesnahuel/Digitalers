@@ -1,0 +1,39 @@
+﻿@model Digitalers.Web.Models.EstudianteViewModel
+
+@{
+    ViewData["Title"] = "Agregar Estudiante";
+}
+
+<h2>Agregar Estudiante</h2>
+
+<form asp-action="Create" method="post" class="needs-validation" novalidate>
+
+    @if (!string.IsNullOrWhiteSpace(@Model.Error))
+    {
+        <div class="alert alert-danger" role="alert">
+            @Model.Error
+        </div>
+    }
+    <div class="form-group">
+        <label asp-for="Nombre" class="control-label"></label>
+        <input asp-for="Nombre" class="form-control" pattern="[A-Za-z\s]+" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Dni" class="control-label"></label>
+        <input asp-for="Dni" class="form-control" required maxlength="8" />
+        <span asp-validation-for="Dni" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Edad" class="control-label"></label>
+        <input asp-for="Edad" class="form-control" />
+        <span asp-validation-for="Edad" class="text-danger"></span>
+    </div>
+    <div class="d-flex justify-content-end gap-2 mt-3">
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+ 
+</form>

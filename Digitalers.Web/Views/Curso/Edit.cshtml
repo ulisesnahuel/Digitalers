@@ -1,0 +1,87 @@
+﻿@model EditCursoViewModel
+
+@{
+    ViewData["Title"] = "Editar Curso";
+}
+
+<h2>Editar Curso</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Duracion"></label>
+        <input asp-for="Duracion" class="form-control" type="number" />
+        <span asp-validation-for="Duracion" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProfesorId">Profesor</label>
+        <select asp-for="ProfesorId" class="form-control" asp-items="Model.Profesores.Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Nombre })">
+            <option value="">Seleccione un Profesor</option>
+        </select>
+        <span asp-validation-for="ProfesorId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="filtroDni">Filtrar estudiantes por DNI</label>
+        <input type="text" id="filtroDni" class="form-control" placeholder="Buscar DNI" />
+    </div>
+
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Seleccionar</th>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th>Edad</th>
+            </tr>
+        </thead>
+        <tbody id="tablaEstudiantes">
+            @foreach (var estudiante in Model.EstudiantesDisponibles)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="EstudiantesSeleccionados" value="@estudiante.Id"
+                        @(Model.EstudiantesSeleccionados.Contains(estudiante.Id) ? "checked" : "") />
+                    </td>
+                    <td>@estudiante.Nombre</td>
+                    <td>@estudiante.Dni</td>
+                    <td>@estudiante.Edad</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-end gap-2 mt-3">
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+
+    
+    
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<script>
+    document.getElementById("filtroDni").addEventListener("input", function () {
+        var filtro = this.value.toLowerCase();
+        var filas = document.querySelectorAll("#tablaEstudiantes tr");
+        filas.forEach(function (fila) {
+            var dni = fila.cells[2].innerText.toLowerCase();
+            if (dni.indexOf(filtro) > -1) {
+                fila.style.display = "";
+            } else {
+                fila.style.display = "none";
+            }
+        });
+    });
+</script>

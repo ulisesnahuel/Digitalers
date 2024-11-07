@@ -1,0 +1,32 @@
+﻿@model EstudianteViewModel
+
+@{
+    ViewData["Title"] = "Eliminar Estudiante";
+}
+
+<h2>Eliminar Estudiante</h2>
+
+<p>¿Estás seguro de que deseas eliminar al siguiente estudiante?</p>
+
+<div>
+    <h4>Nombre: @Model.Nombre</h4>
+    <p>DNI: @Model.Dni</p>
+    <p>Edad: @Model.Edad</p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @foreach (var error in ViewData.ModelState[""].Errors)
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}

@@ -1,0 +1,6 @@
+@Digitalers.Api_HostAddress = http://localhost:5104
+
+GET {{Digitalers.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
